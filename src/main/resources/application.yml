@@ -2,11 +2,15 @@ server:
   port: 8091
 
 spring:
-  mongodb:
-    embedded:
-      version: 3.6.2
   data:
     mongodb:
       database: productdb
 #      host: localhost
 #      port: 27017
+#      username: product
+#      password: product12345
+  mongodb:
+    embedded:
+      version: 3.6.2
+
+

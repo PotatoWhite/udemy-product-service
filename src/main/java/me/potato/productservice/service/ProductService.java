@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.potato.productservice.dto.ProductDto;
 import me.potato.productservice.repository.ProductRepository;
 import me.potato.productservice.util.EntityDtoUtil;
+import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,10 @@ public class ProductService {
 
     public Flux<ProductDto> getAll() {
         return productRepository.findAll().map(EntityDtoUtil::toDto);
+    }
+
+    public Flux<ProductDto> getProductsByPriceBetween(int min, int max) {
+        return productRepository.findByPriceBetween(Range.closed(min, max)).map(EntityDtoUtil::toDto);
     }
 
     public Mono<ProductDto> getById(String id) {

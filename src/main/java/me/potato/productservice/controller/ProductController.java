@@ -17,9 +17,14 @@ import java.util.Map;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public Flux<ProductDto> getAll() {
         return productService.getAll();
+    }
+
+    @GetMapping("/price-range")
+    public Flux<ProductDto> getProductsByPriceBetween(@RequestParam int min, @RequestParam int max) {
+        return productService.getProductsByPriceBetween(min, max);
     }
 
     @GetMapping("/{id}")
