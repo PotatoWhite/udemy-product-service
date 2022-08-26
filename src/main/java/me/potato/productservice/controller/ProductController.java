@@ -13,22 +13,23 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/product")
+@RequestMapping("product")
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/")
+    @GetMapping
     public Flux<ProductDto> getAll() {
         return productService.getAll();
     }
 
-    @GetMapping("/price-range")
+    @GetMapping("price-range")
     public Flux<ProductDto> getProductsByPriceBetween(@RequestParam int min, @RequestParam int max) {
         return productService.getProductsByPriceBetween(min, max);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public Mono<ResponseEntity<ProductDto>> getById(@PathVariable String id) {
+        simulateRandomException();
         return productService.getById(id)
                 .map(ResponseEntity.ok()::body)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -39,23 +40,30 @@ public class ProductController {
         return productService.insertProduct(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public Mono<ResponseEntity<ProductDto>> changeProduct(@PathVariable String id, @RequestBody Mono<ProductDto> dto) {
         return productService.changeProduct(id, dto)
                 .map(ResponseEntity.ok()::body)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("{id}")
     public Mono<ResponseEntity<ProductDto>> updateProduct(@PathVariable String id, @RequestBody Map<String, Object> fieldsDto) {
         return productService.updateProduct(id, fieldsDto)
                 .map(ResponseEntity.ok()::body)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public Mono<Void> deleteProduct(@PathVariable String id) {
         return productService.deleteProduct(id);
     }
 
+
+    private void simulateRandomException() {
+        int random = (int) (Math.random() * 10);
+        if (random > 5) {
+            throw new RuntimeException("Random exception");
+        }
+    }
 }
