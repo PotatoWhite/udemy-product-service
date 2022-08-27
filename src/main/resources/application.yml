@@ -1,5 +1,8 @@
 server:
   port: 8091
+  netty:
+    max-keep-alive-requests: 1000
+
 
 spring:
   data:
@@ -12,5 +15,4 @@ spring:
   mongodb:
     embedded:
       version: 3.6.2
-
 

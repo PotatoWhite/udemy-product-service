@@ -12,7 +12,7 @@ POST http://localhost:8091/product
 Content-Type: application/json
 
 {
-    "description": "samsung",
+    "description": "samsung1",
     "price": 800
 }
 
